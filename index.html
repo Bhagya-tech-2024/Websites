@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Electrical Calculation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    input {
+      width: 60px;
+      text-align: center;
+    }
+    .overload {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Electrical Calculation Tool</h1>
+  <table>
+    <tr>
+      <th>Enter a Value</th>
+      <th>Symbol</th>
+      <th>Value</th>
+      <th>Unit</th>
+    </tr>
+    <tr>
+      <td>Voltage</td>
+      <td>U</td>
+      <td><input id="u" type="number" value="6"></td>
+      <td>V</td>
+    </tr>
+    <tr>
+      <td>Frequency</td>
+      <td>f</td>
+      <td><input id="f" type="number" value="50"></td>
+      <td>Hz</td>
+    </tr>
+    <tr>
+      <td>Resistance 1</td>
+      <td>R1</td>
+      <td><input id="r1" type="number" value="39"></td>
+      <td>Ω</td>
+    </tr>
+    <tr>
+      <td>Resistance 2</td>
+      <td>R2</td>
+      <td><input id="r2" type="number" value="27"></td>
+      <td>Ω</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th>Calculation</th>
+      <th>Symbol</th>
+      <th>Result</th>
+      <th>Unit</th>
+    </tr>
+    <tr>
+      <td>Current</td>
+      <td>I</td>
+      <td id="i">91</td>
+      <td>mA</td>
+    </tr>
+    <tr>
+      <td>Voltage on R1</td>
+      <td>U1</td>
+      <td id="u1">3.5</td>
+      <td>V</td>
+    </tr>
+    <tr>
+      <td>Voltage on R2</td>
+      <td>U2</td>
+      <td id="u2">2.5</td>
+      <td>V</td>
+    </tr>
+    <tr>
+      <td>Power on R1</td>
+      <td>P1</td>
+      <td id="p1">322</td>
+      <td>mW</td>
+    </tr>
+    <tr>
+      <td>Power on R2</td>
+      <td>P2</td>
+      <td id="p2">223</td>
+      <td>mW</td>
+    </tr>
+  </table>
+
+  <script>
+    function updateCalculations() {
+      // Get input values
+      const U = parseFloat(document.getElementById("u").value);
+      const R1 = parseFloat(document.getElementById("r1").value);
+      const R2 = parseFloat(document.getElementById("r2").value);
+
+      // Perform calculations
+      const I = (U / (R1 + R2)) * 1000; // in mA
+      const U1 = (I / 1000) * R1;       // in V
+      const U2 = (I / 1000) * R2;       // in V
+      const P1 = U1 * (I / 1000) * 1000; // in mW
+      const P2 = U2 * (I / 1000) * 1000; // in mW
+
+      // Update results
+      document.getElementById("i").textContent = I > 200 ? "OL" : I.toFixed(1);
+      document.getElementById("u1").textContent = U1.toFixed(1);
+      document.getElementById("u2").textContent = U2.toFixed(1);
+      document.getElementById("p1").textContent = P1.toFixed(1);
+      document.getElementById("p2").textContent = P2.toFixed(1);
+
+      // Highlight overload condition
+      document.getElementById("i").className = I > 200 ? "overload" : "";
+    }
+
+    // Attach event listeners to inputs
+    document.querySelectorAll("input").forEach(input => {
+      input.addEventListener("input", updateCalculations);
+    });
+
+    // Initial calculation
+    updateCalculations();
+  </script>
+</body>
+</html>
