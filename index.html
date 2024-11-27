@@ -8,11 +8,53 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      max-width: 1200px;
+      gap: 20px;
+    }
+    .power-source {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .power-source img {
+      width: 100%;
+      height: auto;
+      max-width: 600px;
+    }
+    .inputs {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .inputs label {
+      font-size: 16px;
+    }
+    .inputs input {
+      width: 80px;
+      padding: 5px;
+      font-size: 14px;
+    }
+    .tables {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
     }
     table, th, td {
       border: 1px solid #ddd;
@@ -21,7 +63,7 @@
       padding: 10px;
       text-align: center;
     }
-    input {
+    input[type="number"] {
       width: 60px;
       text-align: center;
     }
@@ -29,115 +71,86 @@
       color: red;
       font-weight: bold;
     }
-    .power-source {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .power-source img {
-      width: 150px;
-      height: auto;
-      margin-right: 20px;
-    }
-    .meters {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .meter {
-      flex: 1;
-      text-align: center;
-    }
-    .meter input[type="range"] {
-      width: 100%;
-    }
   </style>
 </head>
 <body>
   <h1>Electrical Calculation Tool</h1>
 
-  <!-- Power Source Section -->
-  <div class="power-source">
-    <img src="meter.jpg" alt="Power Source">
-    <div>
-      <div>Voltage (U): <input id="u" type="number" value="6"> V</div>
-      <div>Frequency (f): <input id="f" type="number" value="50"> Hz</div>
+  <div class="container">
+    <!-- Power Source Section -->
+    <div class="power-source">
+      <img src="meter.jpg" alt="Power Source">
+      <div class="inputs">
+        <label for="u">Voltage (V): <input id="u" type="number" value="5"></label>
+        <label for="f">Frequency (Hz): <input id="f" type="number" value="50"></label>
+      </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="tables">
+      <!-- Input Table -->
+      <table>
+        <tr>
+          <th>Enter a Value</th>
+          <th>Symbol</th>
+          <th>Value</th>
+          <th>Unit</th>
+        </tr>
+        <tr>
+          <td>Resistance 1</td>
+          <td>R1</td>
+          <td><input id="r1" type="number" value="39"></td>
+          <td>Ω</td>
+        </tr>
+        <tr>
+          <td>Resistance 2</td>
+          <td>R2</td>
+          <td><input id="r2" type="number" value="27"></td>
+          <td>Ω</td>
+        </tr>
+      </table>
+
+      <!-- Calculation Results Table -->
+      <table>
+        <tr>
+          <th>Calculation</th>
+          <th>Symbol</th>
+          <th>Result</th>
+          <th>Unit</th>
+        </tr>
+        <tr>
+          <td>Current</td>
+          <td>I</td>
+          <td id="i">91</td>
+          <td>mA</td>
+        </tr>
+        <tr>
+          <td>Voltage on R1</td>
+          <td>U1</td>
+          <td id="u1">3.5</td>
+          <td>V</td>
+        </tr>
+        <tr>
+          <td>Voltage on R2</td>
+          <td>U2</td>
+          <td id="u2">2.5</td>
+          <td>V</td>
+        </tr>
+        <tr>
+          <td>Power on R1</td>
+          <td>P1</td>
+          <td id="p1">322</td>
+          <td>mW</td>
+        </tr>
+        <tr>
+          <td>Power on R2</td>
+          <td>P2</td>
+          <td id="p2">223</td>
+          <td>mW</td>
+        </tr>
+      </table>
     </div>
   </div>
-
-  <!-- Voltage and Current Meters -->
-  <div class="meters">
-    <div class="meter">
-      <label for="voltage-meter">Voltage (U):</label><br>
-      <input id="voltage-meter" type="range" min="0" max="10" value="6" disabled>
-    </div>
-    <div class="meter">
-      <label for="current-meter">Current (I):</label><br>
-      <input id="current-meter" type="range" min="0" max="200" value="91" disabled>
-    </div>
-  </div>
-
-  <!-- Input Table -->
-  <table>
-    <tr>
-      <th>Enter a Value</th>
-      <th>Symbol</th>
-      <th>Value</th>
-      <th>Unit</th>
-    </tr>
-    <tr>
-      <td>Resistance 1</td>
-      <td>R1</td>
-      <td><input id="r1" type="number" value="39"></td>
-      <td>Ω</td>
-    </tr>
-    <tr>
-      <td>Resistance 2</td>
-      <td>R2</td>
-      <td><input id="r2" type="number" value="27"></td>
-      <td>Ω</td>
-    </tr>
-  </table>
-
-  <!-- Calculation Results Table -->
-  <table>
-    <tr>
-      <th>Calculation</th>
-      <th>Symbol</th>
-      <th>Result</th>
-      <th>Unit</th>
-    </tr>
-    <tr>
-      <td>Current</td>
-      <td>I</td>
-      <td id="i">91</td>
-      <td>mA</td>
-    </tr>
-    <tr>
-      <td>Voltage on R1</td>
-      <td>U1</td>
-      <td id="u1">3.5</td>
-      <td>V</td>
-    </tr>
-    <tr>
-      <td>Voltage on R2</td>
-      <td>U2</td>
-      <td id="u2">2.5</td>
-      <td>V</td>
-    </tr>
-    <tr>
-      <td>Power on R1</td>
-      <td>P1</td>
-      <td id="p1">322</td>
-      <td>mW</td>
-    </tr>
-    <tr>
-      <td>Power on R2</td>
-      <td>P2</td>
-      <td id="p2">223</td>
-      <td>mW</td>
-    </tr>
-  </table>
 
   <script>
     function updateCalculations() {
@@ -159,10 +172,6 @@
       document.getElementById("u2").textContent = U2.toFixed(1);
       document.getElementById("p1").textContent = P1.toFixed(1);
       document.getElementById("p2").textContent = P2.toFixed(1);
-
-      // Update meters
-      document.getElementById("voltage-meter").value = U;
-      document.getElementById("current-meter").value = Math.min(I, 200);
 
       // Highlight overload condition
       document.getElementById("i").className = I > 200 ? "overload" : "";
