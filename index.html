@@ -29,28 +29,61 @@
       color: red;
       font-weight: bold;
     }
+    .power-source {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .power-source img {
+      width: 150px;
+      height: auto;
+      margin-right: 20px;
+    }
+    .meters {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .meter {
+      flex: 1;
+      text-align: center;
+    }
+    .meter input[type="range"] {
+      width: 100%;
+    }
   </style>
 </head>
 <body>
   <h1>Electrical Calculation Tool</h1>
+
+  <!-- Power Source Section -->
+  <div class="power-source">
+    <img src="meter.jpg" alt="Power Source">
+    <div>
+      <div>Voltage (U): <input id="u" type="number" value="6"> V</div>
+      <div>Frequency (f): <input id="f" type="number" value="50"> Hz</div>
+    </div>
+  </div>
+
+  <!-- Voltage and Current Meters -->
+  <div class="meters">
+    <div class="meter">
+      <label for="voltage-meter">Voltage (U):</label><br>
+      <input id="voltage-meter" type="range" min="0" max="10" value="6" disabled>
+    </div>
+    <div class="meter">
+      <label for="current-meter">Current (I):</label><br>
+      <input id="current-meter" type="range" min="0" max="200" value="91" disabled>
+    </div>
+  </div>
+
+  <!-- Input Table -->
   <table>
     <tr>
       <th>Enter a Value</th>
       <th>Symbol</th>
       <th>Value</th>
       <th>Unit</th>
-    </tr>
-    <tr>
-      <td>Voltage</td>
-      <td>U</td>
-      <td><input id="u" type="number" value="6"></td>
-      <td>V</td>
-    </tr>
-    <tr>
-      <td>Frequency</td>
-      <td>f</td>
-      <td><input id="f" type="number" value="50"></td>
-      <td>Hz</td>
     </tr>
     <tr>
       <td>Resistance 1</td>
@@ -66,6 +99,7 @@
     </tr>
   </table>
 
+  <!-- Calculation Results Table -->
   <table>
     <tr>
       <th>Calculation</th>
@@ -125,6 +159,10 @@
       document.getElementById("u2").textContent = U2.toFixed(1);
       document.getElementById("p1").textContent = P1.toFixed(1);
       document.getElementById("p2").textContent = P2.toFixed(1);
+
+      // Update meters
+      document.getElementById("voltage-meter").value = U;
+      document.getElementById("current-meter").value = Math.min(I, 200);
 
       // Highlight overload condition
       document.getElementById("i").className = I > 200 ? "overload" : "";
